@@ -138,8 +138,10 @@ async function sync(silent){
     renderList();
     if(!silent) toast(t.truncated ? 'Synced (repo is large, list is partial)' : 'Synced');
   }catch(e){
-    if(!silent) toast(friendly(e), 4000);
-    else console.warn(e);
+    const msg = e.status===404
+      ? `Branch "${cfg.branch}" has no commits yet. Tap "New note" to create the first one, or check the branch name in Settings.`
+      : friendly(e);
+    toast(msg, 4500);
   }finally{ $('syncBtn').style.opacity = 1; }
 }
 $('syncBtn').onclick = () => sync(false);
