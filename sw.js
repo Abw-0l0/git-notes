@@ -1,4 +1,4 @@
-const CACHE = 'gitnotes-v2';
+const CACHE = 'gitnotes-v3';
 const SHELL = ['./', 'index.html', 'manifest.json', 'css/app.css', 'js/app.js', 'icons/icon.svg', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
