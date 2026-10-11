@@ -342,15 +342,19 @@ $('newBtn').onclick = () => {
 };
 
 /* ---------- settings ---------- */
+function tokenHint(t){
+  return t && t.length>4 ? 'Currently saved: ••••'+t.slice(-4) : (t ? 'Currently saved: ••••' : 'No token saved yet.');
+}
 function openSettings(){
   $('fRepo').value = cfg.repo||''; $('fToken').value = cfg.token||''; $('fBranch').value = cfg.branch||''; $('fFolder').value = cfg.folder||''; $('fTheme').value = cfg.theme||'auto';
+  $('fTokenHint').textContent = tokenHint(cfg.token);
   $('settingsMsg').classList.add('hidden');
   $('settingsView').classList.remove('hidden');
 }
 $('settingsBtn').onclick = openSettings;
 $('settingsBack').onclick = () => $('settingsView').classList.add('hidden');
 $('saveSettings').onclick = async () => {
-  const repo = parseRepo($('fRepo').value); const token = $('fToken').value.trim();
+  const repo = parseRepo($('fRepo').value); const token = $('fToken').value.replace(/[\s​-‍﻿]+/g, '');
   const msg = $('settingsMsg');
   if(!repo){ msg.textContent='Enter the repo as a GitHub URL or owner/name.'; msg.className='msg err'; return; }
   if(!token){ msg.textContent='Enter your personal access token.'; msg.className='msg err'; return; }
@@ -358,6 +362,7 @@ $('saveSettings').onclick = async () => {
   cfg = {repo, token, branch: $('fBranch').value.trim(), folder: $('fFolder').value.trim(), theme: $('fTheme').value};
   if(changedRepo && !$('fBranch').value.trim()) cfg.branch='';
   LS.set('cfg', cfg); applyTheme();
+  $('fTokenHint').textContent = tokenHint(cfg.token);
   msg.textContent='Connecting…'; msg.className='msg';
   try{
     const info = await gh(`/repos/${repo}`);
