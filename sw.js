@@ -1,5 +1,5 @@
-const CACHE = 'gitnotes-v1';
-const SHELL = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'gitnotes-v2';
+const SHELL = ['./', 'index.html', 'manifest.json', 'css/app.css', 'js/app.js', 'icons/icon.svg', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
